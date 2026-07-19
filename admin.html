@@ -10,9 +10,7 @@ body{font-family:'Noto Sans TC','Microsoft JhengHei',sans-serif;background:#F0F4
 .hdr{background:#fff;border-bottom:3px solid #7C5CDB;padding:18px 28px;display:flex;align-items:center;gap:14px;box-shadow:0 2px 12px rgba(124,92,219,.1)}
 .hdr h1{font-size:20px;font-weight:700;color:#7C5CDB}
 .hdr p{font-size:12px;color:#6B7280;margin-top:2px}
-.wrap{max-width:1400px;margin:28px auto;padding:0 16px}
-
-/* Login */
+.wrap{max-width:1500px;margin:28px auto;padding:0 16px}
 #loginBox{background:#fff;border-radius:16px;padding:40px;max-width:420px;margin:80px auto;box-shadow:0 4px 24px rgba(0,0,0,.08);text-align:center}
 #loginBox h2{color:#7C5CDB;font-size:20px;margin-bottom:8px}
 #loginBox p{color:#6B7280;font-size:13px;margin-bottom:24px}
@@ -21,42 +19,50 @@ body{font-family:'Noto Sans TC','Microsoft JhengHei',sans-serif;background:#F0F4
 #loginBtn{margin-top:12px;width:100%;padding:12px;background:linear-gradient(135deg,#7C5CDB,#3B4CB8);color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:600;cursor:pointer;transition:.2s}
 #loginBtn:hover{opacity:.9}
 #loginErr{color:#E8637A;font-size:13px;margin-top:10px;display:none}
-
-/* Dashboard */
 #dashboard{display:none}
-.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-bottom:24px}
-.stat-card{background:#fff;border-radius:12px;padding:18px 20px;box-shadow:0 2px 10px rgba(0,0,0,.05);border-left:4px solid #7C5CDB}
-.stat-card .num{font-size:28px;font-weight:700;color:#7C5CDB}
-.stat-card .lbl{font-size:12px;color:#6B7280;margin-top:2px}
-
+.stats-section{margin-bottom:10px}
+.stats-title{font-size:13px;font-weight:700;color:#6B7280;letter-spacing:.05em;margin-bottom:8px;text-transform:uppercase}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:6px}
+.stat-card{background:#fff;border-radius:12px;padding:16px 18px;box-shadow:0 2px 10px rgba(0,0,0,.05);border-left:4px solid #7C5CDB}
+.stat-card .num{font-size:26px;font-weight:700;color:#7C5CDB}
+.stat-card .lbl{font-size:11px;color:#6B7280;margin-top:2px}
+.stat-card .sub{font-size:10px;color:#9CA3AF;margin-top:1px}
+.analysis-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-bottom:24px}
+.analysis-card{background:#fff;border-radius:14px;padding:18px 20px;box-shadow:0 2px 12px rgba(0,0,0,.06)}
+.analysis-card h3{font-size:13px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.item-row{display:flex;align-items:center;gap:8px;margin-bottom:7px;font-size:12px}
+.item-label{color:#6B7280;min-width:90px}
+.bar-wrap{flex:1;background:#F3F4F6;border-radius:99px;height:8px;overflow:hidden}
+.bar-fill{height:100%;border-radius:99px;transition:width .6s ease}
+.item-val{font-weight:700;min-width:32px;text-align:right;font-size:12px}
+.section-avg{font-size:11px;color:#9CA3AF;margin-top:10px;padding-top:8px;border-top:1px solid #F3F4F6;display:flex;justify-content:space-between}
+.section-avg strong{color:#374151}
 .toolbar{display:flex;gap:10px;margin-bottom:16px;align-items:center;flex-wrap:wrap}
 .toolbar input{padding:8px 12px;border:2px solid #E5E7EB;border-radius:8px;font-size:13px;outline:none;width:220px}
 .toolbar input:focus{border-color:#7C5CDB}
 .btn{padding:9px 18px;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;transition:.2s}
 .btn-primary{background:#7C5CDB;color:#fff}.btn-primary:hover{opacity:.88}
 .btn-green{background:#059669;color:#fff}.btn-green:hover{opacity:.88}
-.btn-rose{background:#E8637A;color:#fff}.btn-rose:hover{opacity:.88}
-
-.table-wrap{background:#fff;border-radius:14px;box-shadow:0 2px 12px rgba(0,0,0,.06);overflow:auto;max-height:65vh}
-table{width:100%;border-collapse:collapse;font-size:12.5px;white-space:nowrap}
-thead th{background:#F5F3FF;color:#5B21B6;font-weight:700;padding:10px 12px;text-align:left;position:sticky;top:0;z-index:10;border-bottom:2px solid #DDD6FE}
+.table-section-title{font-size:13px;font-weight:700;color:#5B21B6;background:#F5F3FF;padding:8px 14px;border-radius:8px 8px 0 0;border-bottom:2px solid #DDD6FE}
+.table-wrap{background:#fff;border-radius:0 0 14px 14px;box-shadow:0 2px 12px rgba(0,0,0,.06);overflow:auto;max-height:60vh}
+table{width:100%;border-collapse:collapse;font-size:12px;white-space:nowrap}
+thead th{background:#F5F3FF;color:#5B21B6;font-weight:700;padding:9px 11px;text-align:left;position:sticky;top:0;z-index:10;border-bottom:2px solid #DDD6FE}
+thead th.sec-sel{background:#EFF6FF;color:#1E40AF}
+thead th.sec-app{background:#F0FDF4;color:#14532D}
+thead th.sec-sys{background:#FFF7ED;color:#92400E}
+thead th.sec-prv{background:#FDF4FF;color:#6B21A8}
+thead th.sec-fn{background:#FFF1F2;color:#9F1239}
 tbody tr:nth-child(even){background:#F9FAFB}
 tbody tr:hover{background:#EDE9FE}
-tbody td{padding:8px 12px;border-bottom:1px solid #F3F4F6;color:#374151;max-width:200px;overflow:hidden;text-overflow:ellipsis}
+tbody td{padding:7px 11px;border-bottom:1px solid #F3F4F6;color:#374151;max-width:180px;overflow:hidden;text-overflow:ellipsis}
 td.num-cell{text-align:center;font-weight:600;color:#7C5CDB}
-
 .pager{display:flex;align-items:center;gap:10px;margin-top:14px;justify-content:flex-end}
 .pager button{padding:7px 14px;border:2px solid #7C5CDB;background:#fff;color:#7C5CDB;border-radius:8px;font-size:13px;cursor:pointer;font-weight:600}
 .pager button:hover{background:#7C5CDB;color:#fff}
 .pager button:disabled{opacity:.4;cursor:default}
 .pager span{color:#6B7280;font-size:13px}
-
 .empty{text-align:center;padding:50px;color:#9CA3AF}
 .loading{text-align:center;padding:40px;color:#7C5CDB;font-size:15px}
-.section-badge{display:inline-block;padding:2px 8px;border-radius:99px;font-size:10px;font-weight:700;margin-right:4px}
-.bg-rose{background:#FEE2E2;color:#B91C1C}
-.bg-blue{background:#DBEAFE;color:#1E40AF}
-.bg-purple{background:#EDE9FE;color:#5B21B6}
 </style>
 </head>
 <body>
@@ -67,8 +73,6 @@ td.num-cell{text-align:center;font-weight:600;color:#7C5CDB}
   </div>
 </div>
 <div class="wrap">
-
-<!-- 登入框 -->
 <div id="loginBox">
   <h2>🔐 管理員登入</h2>
   <p>請輸入後台管理密碼以查看填答資料</p>
@@ -76,172 +80,118 @@ td.num-cell{text-align:center;font-weight:600;color:#7C5CDB}
   <button id="loginBtn" onclick="doLogin()">登入</button>
   <div id="loginErr">密碼錯誤，請重試</div>
 </div>
-
-<!-- 後台主畫面 -->
 <div id="dashboard">
-  <div class="stats" id="statsRow">
-    <div class="stat-card"><div class="num" id="totalNum">—</div><div class="lbl">填答總人數</div></div>
-    <div class="stat-card" style="border-color:#E8637A"><div class="num" id="todayNum" style="color:#E8637A">—</div><div class="lbl">今日填答</div></div>
-    <div class="stat-card" style="border-color:#059669"><div class="num" id="avgSEL" style="color:#059669">—</div><div class="lbl">SEL平均分（1-5）</div></div>
-    <div class="stat-card" style="border-color:#F59E0B"><div class="num" id="avgApp" style="color:#F59E0B">—</div><div class="lbl">APP體驗平均分</div></div>
+  <div class="stats-section" style="margin-bottom:18px">
+    <div class="stats-title">整體概況</div>
+    <div class="stats">
+      <div class="stat-card"><div class="num" id="totalNum">—</div><div class="lbl">填答總人數</div></div>
+      <div class="stat-card" style="border-color:#E8637A"><div class="num" id="todayNum" style="color:#E8637A">—</div><div class="lbl">今日填答</div></div>
+      <div class="stat-card" style="border-color:#3B82F6"><div class="num" id="avgSEL" style="color:#3B82F6">—</div><div class="lbl">SEL 平均</div><div class="sub">社會情緒學習（Q1–Q10）</div></div>
+      <div class="stat-card" style="border-color:#059669"><div class="num" id="avgApp" style="color:#059669">—</div><div class="lbl">APP體驗 平均</div><div class="sub">APP使用體驗（Q11–Q20）</div></div>
+      <div class="stat-card" style="border-color:#F59E0B"><div class="num" id="avgSys" style="color:#F59E0B">—</div><div class="lbl">系統接受度 平均</div><div class="sub">（Q21–Q27）</div></div>
+      <div class="stat-card" style="border-color:#8B5CF6"><div class="num" id="avgPrv" style="color:#8B5CF6">—</div><div class="lbl">隱私信任 平均</div><div class="sub">（Q28–Q33）</div></div>
+    </div>
   </div>
-
+  <div class="stats-title">各分量表題項分析（1–5分）</div>
+  <div class="analysis-grid" id="analysisGrid"></div>
+  <div class="stats-title">功能評估（第六部分，選擇題）</div>
+  <div class="analysis-grid" id="featureGrid" style="margin-bottom:24px"></div>
   <div class="toolbar">
     <input type="text" id="searchInput" placeholder="🔍 搜尋（性別、身分、關鍵字）" oninput="filterTable()">
     <button class="btn btn-primary" onclick="loadData()">🔄 重新整理</button>
     <button class="btn btn-green" onclick="exportCSV()">⬇ 匯出 CSV</button>
     <span id="rowCount" style="color:#6B7280;font-size:13px;margin-left:auto"></span>
   </div>
-
+  <div class="table-section-title">📋 填答明細資料</div>
   <div class="table-wrap">
     <table id="dataTable">
       <thead id="tableHead"></thead>
       <tbody id="tableBody"><tr><td colspan="99" class="loading">載入中…</td></tr></tbody>
     </table>
   </div>
-
   <div class="pager">
     <button id="btnPrev" onclick="prevPage()" disabled>← 上一頁</button>
     <span id="pageInfo"></span>
-    <button id="btnNext" onclick="nextPage()">下一鄁 →</button>
+    <button id="btnNext" onclick="nextPage()">下一頁 →</button>
   </div>
 </div>
-
 </div>
 <script>
-const PAGE_SIZE = 50;
-let allRows = [];
-let filtered = [];
-let curPage = 0;
-let adminPwd = '';
-let totalDB = 0;
-
-// ── 欄位顯示設定 ──────────────────────────────────────────
-const COL_LABELS = {
-  id:'ID', submitted_at:'填答時間',
-  QA1:'性別',QA2:'身分',QA3:'手機時間',QA4:'AI使用',QA5:'情緒教育',QA6:'情緒支持',QA7:'心理App',
-  Q1:'SEL-1',Q2:'SEL-2',Q3:'SEL-3',Q4:'SEL-4',Q5:'SEL-5',Q6:'SEL-6',Q7:'SEL-7',Q8:'SEL-8',Q9:'SEL-9',Q10:'SEL-10',
-  Q11:'APP-11',Q12a:'APP-12a',Q12b:'APP-12b',Q13:'APP-13',Q14:'APP-14',Q15:'APP-15',
-  Q16:'APP-16',Q17:'APP-17',Q18:'APP-18',Q19a:'APP-19a',Q19b:'APP-19b',Q20:'APP-20',
-  Q21:'SYS-21',Q22:'SYS-22',Q23:'SYS-23',Q24:'SYS-24',Q25:'SYS-25',Q26:'持續使用',Q27:'推薦意願',
-  Q28:'隱私-28',Q29:'隱私-29',Q30:'隱私-30',Q31:'隱私-31',Q32:'隱私-32',Q33:'隱私-33',
-  Q34:'功能-34',Q35:'功能-35',Q36:'功能-36',Q37:'功能-37',Q38:'功能-38'
-};
-
-// ── 登入 ──────────────────────────────────────────────────
-function doLogin(){
-  const pwd = document.getElementById('pwdInput').value;
-  if(!pwd){ return; }
-  adminPwd = pwd;
-  loadData();
-}
-
-// ── 載入資料 ──────────────────────────────────────────────
+const PAGE_SIZE=50;let allRows=[],filtered=[],curPage=0,adminPwd='',totalDB=0;
+const COL_LABELS={id:'ID',submitted_at:'填答時間',QA1:'性別',QA2:'身分',QA3:'手機時間',QA4:'AI使用',QA5:'情緒教育',QA6:'情緒支持',QA7:'心理App',Q1:'SEL-1',Q2:'SEL-2',Q3:'SEL-3',Q4:'SEL-4',Q5:'SEL-5',Q6:'SEL-6',Q7:'SEL-7',Q8:'SEL-8',Q9:'SEL-9',Q10:'SEL-10',Q11:'APP-11',Q12a:'APP-12a',Q12b:'APP-12b',Q13:'APP-13',Q14:'APP-14',Q15:'APP-15',Q16:'APP-16',Q17:'APP-17',Q18:'APP-18',Q19a:'APP-19a',Q19b:'APP-19b',Q20:'APP-20',Q21:'SYS-21',Q22:'SYS-22',Q23:'SYS-23',Q24:'SYS-24',Q25:'SYS-25',Q26:'持續使用',Q27:'推薦意願',Q28:'隱私-28',Q29:'隱私-29',Q30:'隱私-30',Q31:'隱私-31',Q32:'隱私-32',Q33:'隱私-33',Q34:'功能-34',Q35:'功能-35',Q36:'功能-36',Q37:'功能-37',Q38:'功能-38'};
+const COL_CLASS={Q1:'sec-sel',Q2:'sec-sel',Q3:'sec-sel',Q4:'sec-sel',Q5:'sec-sel',Q6:'sec-sel',Q7:'sec-sel',Q8:'sec-sel',Q9:'sec-sel',Q10:'sec-sel',Q11:'sec-app',Q12a:'sec-app',Q12b:'sec-app',Q13:'sec-app',Q14:'sec-app',Q15:'sec-app',Q16:'sec-app',Q17:'sec-app',Q18:'sec-app',Q19a:'sec-app',Q19b:'sec-app',Q20:'sec-app',Q21:'sec-sys',Q22:'sec-sys',Q23:'sec-sys',Q24:'sec-sys',Q25:'sec-sys',Q26:'sec-sys',Q27:'sec-sys',Q28:'sec-prv',Q29:'sec-prv',Q30:'sec-prv',Q31:'sec-prv',Q32:'sec-prv',Q33:'sec-prv',Q34:'sec-fn',Q35:'sec-fn',Q36:'sec-fn',Q37:'sec-fn',Q38:'sec-fn'};
+const SCALES=[{title:'📘 第二部分：社會情緒學習（SEL）',color:'#3B82F6',barColor:'#3B82F6',items:[{key:'Q1',label:'情緒辨識'},{key:'Q2',label:'情緒理解'},{key:'Q3',label:'情緒調節'},{key:'Q4',label:'自我覺察'},{key:'Q5',label:'自我管理'},{key:'Q6',label:'社會覺察'},{key:'Q7',label:'人際關係'},{key:'Q8',label:'負責任決策'},{key:'Q9',label:'同理心'},{key:'Q10',label:'情緒因應'}]},{title:'📗 第三部分：APP使用體驗',color:'#059669',barColor:'#059669',items:[{key:'Q11',label:'易用性'},{key:'Q12a',label:'功能完整(a)'},{key:'Q12b',label:'功能完整(b)'},{key:'Q13',label:'互動體驗'},{key:'Q14',label:'回應品質'},{key:'Q15',label:'個人化'},{key:'Q16',label:'情感支持'},{key:'Q17',label:'諮商深度'},{key:'Q18',label:'整體滿意'},{key:'Q19a',label:'介面美觀(a)'},{key:'Q19b',label:'介面美觀(b)'},{key:'Q20',label:'推薦意願'}]},{title:'📙 第四部分：系統接受度',color:'#F59E0B',barColor:'#F59E0B',items:[{key:'Q21',label:'有用性'},{key:'Q22',label:'易用性'},{key:'Q23',label:'使用態度'},{key:'Q24',label:'使用意圖'},{key:'Q25',label:'信任感'},{key:'Q26',label:'持續使用'},{key:'Q27',label:'推薦意願'}]},{title:'📕 第五部分：隱私與信任',color:'#8B5CF6',barColor:'#8B5CF6',items:[{key:'Q28',label:'隱私保護'},{key:'Q29',label:'資料安全'},{key:'Q30',label:'透明度'},{key:'Q31',label:'資料控制'},{key:'Q32',label:'信任感'},{key:'Q33',label:'隱私顧慮(R)'}]}];
+const FEATURE_ITEMS=[{key:'Q34',label:'最喜歡的功能'},{key:'Q35',label:'最需要改善'},{key:'Q36',label:'使用場景（可複選）'},{key:'Q37',label:'使用頻率'},{key:'Q38',label:'整體評分'}];
+function doLogin(){const p=document.getElementById('pwdInput').value;if(!p)return;adminPwd=p;loadData();}
 async function loadData(){
   document.getElementById('loginErr').style.display='none';
   try{
-    const res = await fetch(`/api/admin-data?pwd=${encodeURIComponent(adminPwd)}&limit=1000`);
-    const data = await res.json();
-    if(res.status===401){ document.getElementById('loginErr').style.display='block'; return; }
-    if(!res.ok){ alert('錯誤：'+data.error); return; }
-
-    // 顯示後台
+    const res=await fetch(`/api/admin-data?pwd=${encodeURIComponent(adminPwd)}&limit=1000`);
+    const data=await res.json();
+    if(res.status===401){document.getElementById('loginErr').style.display='block';return;}
+    if(!res.ok){alert('錯誤：'+data.error);return;}
     document.getElementById('loginBox').style.display='none';
     document.getElementById('dashboard').style.display='block';
-
-    allRows = data.rows || [];
-    totalDB = data.total || allRows.length;
-    filtered = allRows;
-    curPage = 0;
-    buildTableHeader();
-    updateStats();
-    renderPage();
-  } catch(e){
-    alert('連線失敗：'+e.message);
-  }
+    allRows=data.rows||[];totalDB=data.total||allRows.length;filtered=allRows;curPage=0;
+    buildTableHeader();updateStats();buildAnalysis();buildFeatureAnalysis();renderPage();
+  }catch(e){alert('連線失敗：'+e.message);}
 }
-
-// ── 建立表頭 ──────────────────────────────────────────────
-function buildTableHeader(){
-  if(allRows.length===0) return;
-  const cols = Object.keys(allRows[0]);
-  const thead = document.getElementById('tableHead');
-  thead.innerHTML = '<tr>'+cols.map(c=>`<th>${COL_LABELS[c]||c}</th>`).join('')+'</tr>';
-}
-
-// ── 統計卡片 ──────────────────────────────────────────────
+function avg(rows,keys){const vals=rows.flatMap(r=>keys.map(k=>Number(r[k])).filter(v=>v>0));return vals.length>0?(vals.reduce((a,b)=>a+b,0)/vals.length):null;}
 function updateStats(){
-  document.getElementById('totalNum').textContent = totalDB;
-  const today = new Date().toISOString().slice(0,10);
-  const todayCount = allRows.filter(r=>r.submitted_at?.startsWith(today)).length;
-  document.getElementById('todayNum').textContent = todayCount;
-
-  // SEL avg (Q1~Q10)
-  const selCols = ['Q1','Q2','Q3','Q4','Q5','Q6','Q7','Q8','Q9','Q10'];
-  const selVals = allRows.flatMap(r=>selCols.map(c=>Number(r[c])).filter(v=>v>0));
-  const selAvg = selVals.length>0 ? (selVals.reduce((a,b)=>a+b,0)/selVals.length).toFixed(2) : '—';
-  document.getElementById('avgSEL').textContent = selAvg;
-
-  // APP avg (Q11~Q20)
-  const appCols = ['Q11','Q12a','Q12b','Q13','Q14','Q15','Q16','Q17','Q18','Q19a','Q19b','Q20'];
-  const appVals = allRows.flatMap(r=>appCols.map(c=>Number(r[c])).filter(v=>v>0));
-  const appAvg = appVals.length>0 ? (appVals.reduce((a,b)=>a+b,0)/appVals.length).toFixed(2) : '—';
-  document.getElementById('avgApp').textContent = appAvg;
+  document.getElementById('totalNum').textContent=totalDB;
+  const today=new Date().toISOString().slice(0,10);
+  document.getElementById('todayNum').textContent=allRows.filter(r=>r.submitted_at?.startsWith(today)).length;
+  const s=avg(allRows,['Q1','Q2','Q3','Q4','Q5','Q6','Q7','Q8','Q9','Q10']);
+  document.getElementById('avgSEL').textContent=s!==null?s.toFixed(2):'—';
+  const a=avg(allRows,['Q11','Q12a','Q12b','Q13','Q14','Q15','Q16','Q17','Q18','Q19a','Q19b','Q20']);
+  document.getElementById('avgApp').textContent=a!==null?a.toFixed(2):'—';
+  const sy=avg(allRows,['Q21','Q22','Q23','Q24','Q25','Q26','Q27']);
+  document.getElementById('avgSys').textContent=sy!==null?sy.toFixed(2):'—';
+  const p=avg(allRows,['Q28','Q29','Q30','Q31','Q32','Q33']);
+  document.getElementById('avgPrv').textContent=p!==null?p.toFixed(2):'—';
 }
-
-// ── 渲染分頁表格 ──────────────────────────────────────────
+function buildAnalysis(){
+  const grid=document.getElementById('analysisGrid');
+  if(!allRows.length){grid.innerHTML='<p style="color:#9CA3AF;font-size:13px">尚無資料</p>';return;}
+  grid.innerHTML='';
+  SCALES.forEach(scale=>{
+    const itemRows=scale.items.map(it=>{const vals=allRows.map(r=>Number(r[it.key])).filter(v=>v>0);const mean=vals.length>0?vals.reduce((a,b)=>a+b,0)/vals.length:null;return{label:it.label,mean};});
+    const sm=itemRows.filter(r=>r.mean!==null);const secAvg=sm.length>0?sm.reduce((a,r)=>a+r.mean,0)/sm.length:null;
+    const card=document.createElement('div');card.className='analysis-card';
+    card.innerHTML=`<h3 style="color:${scale.color}">${scale.title}</h3>${itemRows.map(r=>`<div class="item-row"><span class="item-label">${r.label}</span><div class="bar-wrap"><div class="bar-fill" style="width:${r.mean!==null?(r.mean/5*100).toFixed(1):0}%;background:${scale.barColor}"></div></div><span class="item-val" style="color:${scale.color}">${r.mean!==null?r.mean.toFixed(2):'—'}</span></div>`).join('')}<div class="section-avg"><span>分量表平均</span><strong style="color:${scale.color}">${secAvg!==null?secAvg.toFixed(2):'—'} / 5.00</strong></div>`;
+    grid.appendChild(card);
+  });
+}
+function buildFeatureAnalysis(){
+  const grid=document.getElementById('featureGrid');
+  if(!allRows.length){grid.innerHTML='<p style="color:#9CA3AF;font-size:13px">尚無資料</p>';return;}
+  grid.innerHTML='';
+  FEATURE_ITEMS.forEach(fi=>{
+    const counts={};allRows.forEach(r=>{const val=r[fi.key];if(!val)return;String(val).split('、').map(v=>v.trim()).filter(Boolean).forEach(v=>{counts[v]=(counts[v]||0)+1;});});
+    const entries=Object.entries(counts).sort((a,b)=>b[1]-a[1]);const total=allRows.filter(r=>r[fi.key]).length;
+    const card=document.createElement('div');card.className='analysis-card';
+    card.innerHTML=`<h3 style="color:#E11D48">📊 ${fi.label}（${COL_LABELS[fi.key]}）</h3>${entries.length===0?'<p style="color:#9CA3AF;font-size:12px">尚無資料</p>':entries.map(([opt,cnt])=>`<div class="item-row"><span class="item-label" style="min-width:110px">${opt}</span><div class="bar-wrap"><div class="bar-fill" style="width:${total>0?(cnt/total*100).toFixed(1):0}%;background:#E11D48"></div></div><span class="item-val" style="color:#E11D48">${cnt}人</span></div>`).join('')}<div class="section-avg"><span>有效回答</span><strong style="color:#E11D48">${total} 人</strong></div>`;
+    grid.appendChild(card);
+  });
+}
+function buildTableHeader(){if(!allRows.length)return;const cols=Object.keys(allRows[0]);document.getElementById('tableHead').innerHTML='<tr>'+cols.map(c=>`<th class="${COL_CLASS[c]||''}">${COL_LABELS[c]||c}</th>`).join('')+'</tr>';}
 function renderPage(){
-  if(allRows.length===0){ return; }
-  const cols = Object.keys(allRows[0]);
-  const start = curPage * PAGE_SIZE;
-  const pageRows = filtered.slice(start, start + PAGE_SIZE);
-  const numericCols = new Set(cols.filter(c=>c.match(/^Q\d/)));
-
-  const tbody = document.getElementById('tableBody');
-  if(pageRows.length===0){
-    tbody.innerHTML='<tr><td colspan="99" class="empty">沒有符合的資料</td></tr>';
-  } else {
-    tbody.innerHTML = pageRows.map(row=>`<tr>${cols.map(c=>{
-      const val = row[c];
-      if(c==='submitted_at') return `<td>${val ? new Date(val).toLocaleString('zh-TW') : ''}</td>`;
-      if(numericCols.has(c)) return `<td class="num-cell">${val??''}</td>`;
-      return `<td title="${val??''}">${val??''}</td>`;
-    }).join('')}</tr>`).join('');
-  }
-
-  const total = filtered.length;
-  document.getElementById('pageInfo').textContent = `第 ${start+1}–${Math.min(start+PAGE_SIZE,total)} 筆，共 ${total} 筆`;
-  document.getElementById('rowCount').textContent = `篩選後：${total} 筆 / 總計：${totalDB} 筆`;
-  document.getElementById('btnPrev').disabled = curPage===0;
-  document.getElementById('btnNext').disabled = start+PAGE_SIZE>=total;
+  if(!allRows.length)return;
+  const cols=Object.keys(allRows[0]),start=curPage*PAGE_SIZE,pageRows=filtered.slice(start,start+PAGE_SIZE);
+  const numericCols=new Set(cols.filter(c=>c.match(/^Q\d/)));
+  const tbody=document.getElementById('tableBody');
+  if(!pageRows.length){tbody.innerHTML='<tr><td colspan="99" class="empty">沒有符合的資料</td></tr>';}
+  else{tbody.innerHTML=pageRows.map(row=>`<tr>${cols.map(c=>{const val=row[c];if(c==='submitted_at')return`<td>${val?new Date(val).toLocaleString('zh-TW'):''}</td>`;if(numericCols.has(c))return`<td class="num-cell">${val??''}</td>`;return`<td title="${val??''}">${val??''}</td>`;}).join('')}</tr>`).join('');}
+  const total=filtered.length;
+  document.getElementById('pageInfo').textContent=`第 ${start+1}–${Math.min(start+PAGE_SIZE,total)} 筆，共 ${total} 筆`;
+  document.getElementById('rowCount').textContent=`篩選後：${total} 筆 / 總計：${totalDB} 筆`;
+  document.getElementById('btnPrev').disabled=curPage===0;
+  document.getElementById('btnNext').disabled=start+PAGE_SIZE>=total;
 }
-
-function prevPage(){ if(curPage>0){curPage--;renderPage();} }
-function nextPage(){ curPage++;renderPage(); }
-
-// ── 搜尋篩選 ──────────────────────────────────────────────
-function filterTable(){
-  const q = document.getElementById('searchInput').value.toLowerCase().trim();
-  if(!q){ filtered=allRows; }
-  else {
-    filtered = allRows.filter(row=>Object.values(row).some(v=>String(v??'').toLowerCase().includes(q)));
-  }
-  curPage=0;
-  renderPage();
-}
-
-// ── 匯出 CSV ──────────────────────────────────────────────
-function exportCSV(){
-  if(!filtered.length){ alert('沒有資料可匯出'); return; }
-  const cols = Object.keys(filtered[0]);
-  const header = cols.map(c=>COL_LABELS[c]||c).map(c=>`"${c}"`).join(',');
-  const body = filtered.map(row=>cols.map(c=>`"${String(row[c]??'').replace(/"/g,'""')}"`).join(',')).join('\n');
-  const csv = '﻿'+header+'\n'+body;
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));
-  a.download = `問卷填答資料_${new Date().toLocaleDateString('zh-TW').replace(/\//g,'-')}.csv`;
-  a.click();
-}
+function prevPage(){if(curPage>0){curPage--;renderPage();}}
+function nextPage(){curPage++;renderPage();}
+function filterTable(){const q=document.getElementById('searchInput').value.toLowerCase().trim();filtered=q?allRows.filter(row=>Object.values(row).some(v=>String(v??'').toLowerCase().includes(q))):allRows;curPage=0;renderPage();}
+function exportCSV(){if(!filtered.length){alert('沒有資料可匯出');return;}const cols=Object.keys(filtered[0]);const header=cols.map(c=>COL_LABELS[c]||c).map(c=>`"${c}"`).join(',');const body=filtered.map(row=>cols.map(c=>`"${String(row[c]??'').replace(/"/g,'""')}"`).join(',')).join('\n');const csv='﻿'+header+'\n'+body;const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));a.download=`問卷填答資料_${new Date().toLocaleDateString('zh-TW').replace(/\//g,'-')}.csv`;a.click();}
 </script>
 </body>
 </html>
