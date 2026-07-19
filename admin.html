@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>問卷後台管理｜AI情緒諮商小助手</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Noto Sans TC','Microsoft JhengHei',sans-serif;background:#F0F4FF;min-height:100vh;color:#1F2937}
+.hdr{background:#fff;border-bottom:3px solid #7C5CDB;padding:18px 28px;display:flex;align-items:center;gap:14px;box-shadow:0 2px 12px rgba(124,92,219,.1)}
+.hdr h1{font-size:20px;font-weight:700;color:#7C5CDB}
+.hdr p{font-size:12px;color:#6B7280;margin-top:2px}
+.wrap{max-width:1400px;margin:28px auto;padding:0 16px}
+
+/* Login */
+#loginBox{background:#fff;border-radius:16px;padding:40px;max-width:420px;margin:80px auto;box-shadow:0 4px 24px rgba(0,0,0,.08);text-align:center}
+#loginBox h2{color:#7C5CDB;font-size:20px;margin-bottom:8px}
+#loginBox p{color:#6B7280;font-size:13px;margin-bottom:24px}
+#loginBox input{width:100%;padding:11px 14px;border:2px solid #E5E7EB;border-radius:10px;font-size:15px;outline:none;transition:.2s}
+#loginBox input:focus{border-color:#7C5CDB}
+#loginBtn{margin-top:12px;width:100%;padding:12px;background:linear-gradient(135deg,#7C5CDB,#3B4CB8);color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:600;cursor:pointer;transition:.2s}
+#loginBtn:hover{opacity:.9}
+#loginErr{color:#E8637A;font-size:13px;margin-top:10px;display:none}
+
+/* Dashboard */
+#dashboard{display:none}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-bottom:24px}
+.stat-card{background:#fff;border-radius:12px;padding:18px 20px;box-shadow:0 2px 10px rgba(0,0,0,.05);border-left:4px solid #7C5CDB}
+.stat-card .num{font-size:28px;font-weight:700;color:#7C5CDB}
+.stat-card .lbl{font-size:12px;color:#6B7280;margin-top:2px}
+
+.toolbar{display:flex;gap:10px;margin-bottom:16px;align-items:center;flex-wrap:wrap}
+.toolbar input{padding:8px 12px;border:2px solid #E5E7EB;border-radius:8px;font-size:13px;outline:none;width:220px}
+.toolbar input:focus{border-color:#7C5CDB}
+.btn{padding:9px 18px;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;transition:.2s}
+.btn-primary{background:#7C5CDB;color:#fff}.btn-primary:hover{opacity:.88}
+.btn-green{background:#059669;color:#fff}.btn-green:hover{opacity:.88}
+.btn-rose{background:#E8637A;color:#fff}.btn-rose:hover{opacity:.88}
+
+.table-wrap{background:#fff;border-radius:14px;box-shadow:0 2px 12px rgba(0,0,0,.06);overflow:auto;max-height:65vh}
+table{width:100%;border-collapse:collapse;font-size:12.5px;white-space:nowrap}
+thead th{background:#F5F3FF;color:#5B21B6;font-weight:700;padding:10px 12px;text-align:left;position:sticky;top:0;z-index:10;border-bottom:2px solid #DDD6FE}
+tbody tr:nth-child(even){background:#F9FAFB}
+tbody tr:hover{background:#EDE9FE}
+tbody td{padding:8px 12px;border-bottom:1px solid #F3F4F6;color:#374151;max-width:200px;overflow:hidden;text-overflow:ellipsis}
+td.num-cell{text-align:center;font-weight:600;color:#7C5CDB}
+
+.pager{display:flex;align-items:center;gap:10px;margin-top:14px;justify-content:flex-end}
+.pager button{padding:7px 14px;border:2px solid #7C5CDB;background:#fff;color:#7C5CDB;border-radius:8px;font-size:13px;cursor:pointer;font-weight:600}
+.pager button:hover{background:#7C5CDB;color:#fff}
+.pager button:disabled{opacity:.4;cursor:default}
+.pager span{color:#6B7280;font-size:13px}
+
+.empty{text-align:center;padding:50px;color:#9CA3AF}
+.loading{text-align:center;padding:40px;color:#7C5CDB;font-size:15px}
+.section-badge{display:inline-block;padding:2px 8px;border-radius:99px;font-size:10px;font-weight:700;margin-right:4px}
+.bg-rose{background:#FEE2E2;color:#B91C1C}
+.bg-blue{background:#DBEAFE;color:#1E40AF}
+.bg-purple{background:#EDE9FE;color:#5B21B6}
+</style>
+</head>
+<body>
+<div class="hdr">
+  <div>
+    <h1>🗄️ 問卷後台管理</h1>
+    <p>AI情緒諮商小助手 ｜ 填答資料查詢系統</p>
+  </div>
+</div>
+<div class="wrap">
+
+<!-- 登入框 -->
+<div id="loginBox">
+  <h2>🔐 管理員登入</h2>
+  <p>請輸入後台管理密碼以查看填答資料</p>
+  <input type="password" id="pwdInput" placeholder="輸入密碼" onkeydown="if(event.key==='Enter')doLogin()">
+  <button id="loginBtn" onclick="doLogin()">登入</button>
+  <div id="loginErr">密碼錯誤，請重試</div>
+</div>
+
+<!-- 後台主畫面 -->
+<div id="dashboard">
+  <div class="stats" id="statsRow">
+    <div class="stat-card"><div class="num" id="totalNum">—</div><div class="lbl">填答總人數</div></div>
+    <div class="stat-card" style="border-color:#E8637A"><div class="num" id="todayNum" style="color:#E8637A">—</div><div class="lbl">今日填答</div></div>
+    <div class="stat-card" style="border-color:#059669"><div class="num" id="avgSEL" style="color:#059669">—</div><div class="lbl">SEL平均分（1-5）</div></div>
+    <div class="stat-card" style="border-color:#F59E0B"><div class="num" id="avgApp" style="color:#F59E0B">—</div><div class="lbl">APP體驗平均分</div></div>
+  </div>
+
+  <div class="toolbar">
+    <input type="text" id="searchInput" placeholder="🔍 搜尋（性別、身分、關鍵字）" oninput="filterTable()">
+    <button class="btn btn-primary" onclick="loadData()">🔄 重新整理</button>
+    <button class="btn btn-green" onclick="exportCSV()">⬇ 匯出 CSV</button>
+    <span id="rowCount" style="color:#6B7280;font-size:13px;margin-left:auto"></span>
+  </div>
+
+  <div class="table-wrap">
+    <table id="dataTable">
+      <thead id="tableHead"></thead>
+      <tbody id="tableBody"><tr><td colspan="99" class="loading">載入中…</td></tr></tbody>
+    </table>
+  </div>
+
+  <div class="pager">
+    <button id="btnPrev" onclick="prevPage()" disabled>← 上一頁</button>
+    <span id="pageInfo"></span>
+    <button id="btnNext" onclick="nextPage()">下一鄁 →</button>
+  </div>
+</div>
+
+</div>
+<script>
+const PAGE_SIZE = 50;
+let allRows = [];
+let filtered = [];
+let curPage = 0;
+let adminPwd = '';
+let totalDB = 0;
+
+// ── 欄位顯示設定 ──────────────────────────────────────────
+const COL_LABELS = {
+  id:'ID', submitted_at:'填答時間',
+  QA1:'性別',QA2:'身分',QA3:'手機時間',QA4:'AI使用',QA5:'情緒教育',QA6:'情緒支持',QA7:'心理App',
+  Q1:'SEL-1',Q2:'SEL-2',Q3:'SEL-3',Q4:'SEL-4',Q5:'SEL-5',Q6:'SEL-6',Q7:'SEL-7',Q8:'SEL-8',Q9:'SEL-9',Q10:'SEL-10',
+  Q11:'APP-11',Q12a:'APP-12a',Q12b:'APP-12b',Q13:'APP-13',Q14:'APP-14',Q15:'APP-15',
+  Q16:'APP-16',Q17:'APP-17',Q18:'APP-18',Q19a:'APP-19a',Q19b:'APP-19b',Q20:'APP-20',
+  Q21:'SYS-21',Q22:'SYS-22',Q23:'SYS-23',Q24:'SYS-24',Q25:'SYS-25',Q26:'持續使用',Q27:'推薦意願',
+  Q28:'隱私-28',Q29:'隱私-29',Q30:'隱私-30',Q31:'隱私-31',Q32:'隱私-32',Q33:'隱私-33',
+  Q34:'功能-34',Q35:'功能-35',Q36:'功能-36',Q37:'功能-37',Q38:'功能-38'
+};
+
+// ── 登入 ──────────────────────────────────────────────────
+function doLogin(){
+  const pwd = document.getElementById('pwdInput').value;
+  if(!pwd){ return; }
+  adminPwd = pwd;
+  loadData();
+}
+
+// ── 載入資料 ──────────────────────────────────────────────
+async function loadData(){
+  document.getElementById('loginErr').style.display='none';
+  try{
+    const res = await fetch(`/api/admin-data?pwd=${encodeURIComponent(adminPwd)}&limit=1000`);
+    const data = await res.json();
+    if(res.status===401){ document.getElementById('loginErr').style.display='block'; return; }
+    if(!res.ok){ alert('錯誤：'+data.error); return; }
+
+    // 顯示後台
+    document.getElementById('loginBox').style.display='none';
+    document.getElementById('dashboard').style.display='block';
+
+    allRows = data.rows || [];
+    totalDB = data.total || allRows.length;
+    filtered = allRows;
+    curPage = 0;
+    buildTableHeader();
+    updateStats();
+    renderPage();
+  } catch(e){
+    alert('連線失敗：'+e.message);
+  }
+}
+
+// ── 建立表頭 ──────────────────────────────────────────────
+function buildTableHeader(){
+  if(allRows.length===0) return;
+  const cols = Object.keys(allRows[0]);
+  const thead = document.getElementById('tableHead');
+  thead.innerHTML = '<tr>'+cols.map(c=>`<th>${COL_LABELS[c]||c}</th>`).join('')+'</tr>';
+}
+
+// ── 統計卡片 ──────────────────────────────────────────────
+function updateStats(){
+  document.getElementById('totalNum').textContent = totalDB;
+  const today = new Date().toISOString().slice(0,10);
+  const todayCount = allRows.filter(r=>r.submitted_at?.startsWith(today)).length;
+  document.getElementById('todayNum').textContent = todayCount;
+
+  // SEL avg (Q1~Q10)
+  const selCols = ['Q1','Q2','Q3','Q4','Q5','Q6','Q7','Q8','Q9','Q10'];
+  const selVals = allRows.flatMap(r=>selCols.map(c=>Number(r[c])).filter(v=>v>0));
+  const selAvg = selVals.length>0 ? (selVals.reduce((a,b)=>a+b,0)/selVals.length).toFixed(2) : '—';
+  document.getElementById('avgSEL').textContent = selAvg;
+
+  // APP avg (Q11~Q20)
+  const appCols = ['Q11','Q12a','Q12b','Q13','Q14','Q15','Q16','Q17','Q18','Q19a','Q19b','Q20'];
+  const appVals = allRows.flatMap(r=>appCols.map(c=>Number(r[c])).filter(v=>v>0));
+  const appAvg = appVals.length>0 ? (appVals.reduce((a,b)=>a+b,0)/appVals.length).toFixed(2) : '—';
+  document.getElementById('avgApp').textContent = appAvg;
+}
+
+// ── 渲染分頁表格 ──────────────────────────────────────────
+function renderPage(){
+  if(allRows.length===0){ return; }
+  const cols = Object.keys(allRows[0]);
+  const start = curPage * PAGE_SIZE;
+  const pageRows = filtered.slice(start, start + PAGE_SIZE);
+  const numericCols = new Set(cols.filter(c=>c.match(/^Q\d/)));
+
+  const tbody = document.getElementById('tableBody');
+  if(pageRows.length===0){
+    tbody.innerHTML='<tr><td colspan="99" class="empty">沒有符合的資料</td></tr>';
+  } else {
+    tbody.innerHTML = pageRows.map(row=>`<tr>${cols.map(c=>{
+      const val = row[c];
+      if(c==='submitted_at') return `<td>${val ? new Date(val).toLocaleString('zh-TW') : ''}</td>`;
+      if(numericCols.has(c)) return `<td class="num-cell">${val??''}</td>`;
+      return `<td title="${val??''}">${val??''}</td>`;
+    }).join('')}</tr>`).join('');
+  }
+
+  const total = filtered.length;
+  document.getElementById('pageInfo').textContent = `第 ${start+1}–${Math.min(start+PAGE_SIZE,total)} 筆，共 ${total} 筆`;
+  document.getElementById('rowCount').textContent = `篩選後：${total} 筆 / 總計：${totalDB} 筆`;
+  document.getElementById('btnPrev').disabled = curPage===0;
+  document.getElementById('btnNext').disabled = start+PAGE_SIZE>=total;
+}
+
+function prevPage(){ if(curPage>0){curPage--;renderPage();} }
+function nextPage(){ curPage++;renderPage(); }
+
+// ── 搜尋篩選 ──────────────────────────────────────────────
+function filterTable(){
+  const q = document.getElementById('searchInput').value.toLowerCase().trim();
+  if(!q){ filtered=allRows; }
+  else {
+    filtered = allRows.filter(row=>Object.values(row).some(v=>String(v??'').toLowerCase().includes(q)));
+  }
+  curPage=0;
+  renderPage();
+}
+
+// ── 匯出 CSV ──────────────────────────────────────────────
+function exportCSV(){
+  if(!filtered.length){ alert('沒有資料可匯出'); return; }
+  const cols = Object.keys(filtered[0]);
+  const header = cols.map(c=>COL_LABELS[c]||c).map(c=>`"${c}"`).join(',');
+  const body = filtered.map(row=>cols.map(c=>`"${String(row[c]??'').replace(/"/g,'""')}"`).join(',')).join('\n');
+  const csv = '﻿'+header+'\n'+body;
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));
+  a.download = `問卷填答資料_${new Date().toLocaleDateString('zh-TW').replace(/\//g,'-')}.csv`;
+  a.click();
+}
+</script>
+</body>
+</html>
