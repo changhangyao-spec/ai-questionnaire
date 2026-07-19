@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI情緒諮商小助手｜使用者研究問卷</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --rose:#E8637A;--rose-light:#F4A0AE;--rose-pale:#FEF2F4;
+  --purple:#7C5CDB;--blue:#3B4CB8;--blue-pale:#EEF2FF;
+  --text:#1F2937;--gray:#6B7280;--light:#F9FAFB;
+  --border:#E5E7EB;--white:#fff;--green:#059669;
+}
+body{font-family:'Noto Sans TC','Microsoft JhengHei',sans-serif;background:linear-gradient(160deg,#FEF2F4 0%,#F0F4FF 100%);min-height:100vh;color:var(--text);font-size:15px;line-height:1.75;padding-bottom:80px}
+.hdr{background:var(--white);border-bottom:3px solid var(--rose-light);padding:18px 24px 14px;text-align:center;box-shadow:0 2px 12px rgba(232,99,122,.1);position:sticky;top:0;z-index:200}
+.hdr h1{font-size:20px;font-weight:700;color:var(--rose);margin-bottom:2px}
+.hdr p{font-size:12px;color:var(--gray)}
+.prog-wrap{background:var(--white);border-bottom:1px solid var(--border);padding:10px 20px 12px;position:sticky;top:69px;z-index:190}
+.prog-steps{display:flex;justify-content:space-between;margin-bottom:6px;gap:2px}
+.prog-step{flex:1;text-align:center;font-size:10px;color:var(--border);font-weight:600;transition:.3s}
+.prog-step.done{color:var(--rose-light)}.prog-step.current{color:var(--rose)}
+.prog-bg{height:5px;background:#F3F4F6;border-radius:99px;overflow:hidden}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--rose),var(--purple));border-radius:99px;transition:width .5s ease}
+.wrap{max-width:700px;margin:0 auto;padding:22px 14px 16px}
+.preamble{background:var(--white);border-radius:16px;padding:26px;box-shadow:0 4px 20px rgba(0,0,0,.06);margin-bottom:18px}
+.preamble h2{font-size:16px;font-weight:700;color:var(--rose);margin-bottom:10px}
+.preamble p{font-size:13.5px;color:var(--gray);margin-bottom:8px}
+.minor-notice{background:#FFF5F5;border:1px solid #FECDD3;border-radius:8px;padding:10px 14px;font-size:13px;color:#BE123C;margin:10px 0}
+.sec{background:var(--white);border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,.06);margin-bottom:18px;overflow:hidden;display:none}
+.sec.active{display:block;animation:fadeUp .35s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.sec-title{background:linear-gradient(135deg,var(--rose),var(--purple));color:#fff;padding:15px 24px;font-size:16px;font-weight:700}
+.sec-body{padding:22px 24px}
+.sec-note{font-size:13px;color:var(--gray);background:var(--light);border-left:3px solid var(--rose-light);padding:9px 13px;border-radius:0 8px 8px 0;margin-bottom:20px;line-height:1.7}
+.qb{margin-bottom:26px;padding-bottom:22px;border-bottom:1px solid #F3F4F6}
+.qb:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+.ql{font-size:14.5px;font-weight:600;margin-bottom:11px;display:flex;gap:7px;align-items:flex-start}
+.qn{color:var(--rose);font-weight:700;white-space:nowrap;flex-shrink:0}
+.req{color:var(--rose);font-size:12px;margin-left:3px}
+.construct-tag{display:inline-block;font-size:11px;font-weight:600;color:var(--blue);background:var(--blue-pale);padding:3px 10px;border-radius:99px;margin-bottom:6px}
+.likert{display:flex;gap:6px}
+@media(max-width:480px){.likert{flex-wrap:wrap}}
+.lbtn{flex:1;min-width:0;text-align:center;padding:9px 4px;border:2px solid var(--border);border-radius:10px;cursor:pointer;transition:.2s;background:var(--white);user-select:none}
+.lbtn:hover{border-color:var(--rose-light);background:var(--rose-pale)}
+.lbtn.sel{border-color:var(--rose);background:linear-gradient(135deg,#FEF2F4,#EEF2FF);color:var(--rose);font-weight:700}
+.lbtn .ln{font-size:17px;font-weight:700;display:block;margin-bottom:1px}
+.lbtn .ll{font-size:9.5px;color:var(--gray);line-height:1.3}
+.lbtn.sel .ll{color:var(--rose)}
+.opts{display:flex;flex-direction:column;gap:7px}
+.opts-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+@media(max-width:440px){.opts-grid{grid-template-columns:1fr}}
+.opt{display:flex;align-items:center;gap:9px;padding:9px 13px;border:2px solid var(--border);border-radius:10px;cursor:pointer;transition:.2s;user-select:none}
+.opt:hover{border-color:var(--rose-light);background:var(--rose-pale)}
+.opt.sel{border-color:var(--rose);background:var(--rose-pale)}
+.opt input{accent-color:var(--rose);width:15px;height:15px;flex-shrink:0;cursor:pointer}
+.opt span{font-size:13.5px;cursor:pointer}
+.err{color:#DC2626;font-size:12px;margin-top:5px;display:none}
+.qb.bad .err{display:block}
+.qb.bad .lbtn{border-color:#FECACA}
+.qb.bad .opt{border-color:#FECACA}
+.nav{position:fixed;bottom:0;left:0;right:0;background:var(--white);border-top:1px solid var(--border);padding:10px 20px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 -4px 14px rgba(0,0,0,.07);z-index:300}
+.nav-ctr{font-size:12px;color:var(--gray)}
+.btn{padding:10px 22px;border-radius:10px;font-size:14px;font-weight:600;border:none;cursor:pointer;transition:.2s;font-family:inherit}
+.btn-ghost{background:var(--white);border:2px solid var(--border);color:var(--gray)}
+.btn-ghost:hover{border-color:var(--rose-light);color:var(--rose)}
+.btn-pri{background:linear-gradient(135deg,var(--rose),var(--purple));color:#fff}
+.btn-pri:hover{opacity:.9;transform:translateY(-1px)}
+.btn-pri:disabled{opacity:.45;cursor:not-allowed;transform:none}
+#ty{display:none;text-align:center;padding:56px 20px}
+#ty.active{display:block;animation:fadeUp .4s ease}
+.ty-icon{font-size:72px;margin-bottom:14px}
+#ty h2{font-size:26px;font-weight:700;color:var(--rose);margin-bottom:10px}
+#ty p{color:var(--gray);margin-bottom:22px;line-height:1.9;font-size:14px}
+.btn-dl{background:linear-gradient(135deg,var(--green),#065F46);color:#fff;padding:11px 26px;border-radius:10px;border:none;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;transition:.2s;margin-top:8px}
+.btn-dl:hover{opacity:.9}
+.summary-box{background:var(--light);border-radius:12px;padding:18px 22px;margin:20px auto;max-width:500px;text-align:left}
+.summary-box h3{font-size:14px;font-weight:700;color:var(--blue);margin-bottom:10px}
+.summary-row{display:flex;justify-content:space-between;font-size:13px;padding:4px 0;border-bottom:1px solid var(--border)}
+.summary-row:last-child{border-bottom:none}
+.summary-row span:last-child{font-weight:600;color:var(--rose)}
+/* 提交中 overlay */
+#submitting{display:none;position:fixed;inset:0;background:rgba(255,255,255,.85);z-index:999;flex-direction:column;align-items:center;justify-content:center;gap:16px}
+#submitting.show{display:flex}
+.spinner{width:48px;height:48px;border:5px solid var(--rose-light);border-top-color:var(--rose);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+#submitting p{font-size:15px;font-weight:600;color:var(--rose)}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <h1>🧠 AI情緒諮商小助手｜使用者研究問卷</h1>
+  <p>基於社會情緒學習（SEL）理論與科技接受模式（TAM）</p>
+</div>
+
+<div class="prog-wrap">
+  <div class="prog-steps" id="progSteps"></div>
+  <div class="prog-bg"><div class="prog-fill" id="progFill" style="width:0%"></div></div>
+</div>
+
+<div class="wrap">
+  <div class="preamble" id="preamble">
+    <h2>📋 填答說明</h2>
+    <p>本問卷依據社會情緒學習（SEL）、科技接受模式（TAM）、系統可用性與 AI 情緒輔導倫理安全等構面編製，目的在於瞭解您對「AI情緒諮商小助手」原型的使用感受，作為系統改進之依據。</p>
+    <div class="minor-notice">⚠️ <strong>未成年受試者知情同意：</strong>若填答者為未滿 18 歲之未成年人，請確認已獲家長或法定監護人書面同意後再行填答。</div>
+    <p>📌 量表題請依實際感受填答：<strong>1＝非常不同意　2＝不同意　3＝普通　4＝同意　5＝非常同意</strong></p>
+    <p>🔒 資料僅供學術研究，匿名處理，請放心填寫。填答完畢後資料將自動儲存至研究資料庫。</p>
+  </div>
+
+  <div id="sections"></div>
+
+  <div id="ty">
+    <div class="ty-icon">🎉</div>
+    <h2>感謝您的填答！</h2>
+    <p>您的回饋已成功儲存至研究資料庫，<br>將有助於「AI情緒諮商小助手」持續改進。</p>
+    <div class="summary-box" id="summaryBox"></div>
+    <button class="btn-dl" onclick="downloadCSV()">⬇ 下載作答紀錄（CSV）</button>
+  </div>
+</div>
+
+<div class="nav">
+  <button class="btn btn-ghost" id="btnPrev" onclick="go(-1)">← 上一頁</button>
+  <span class="nav-ctr" id="navCtr"></span>
+  <button class="btn btn-pri" id="btnNext" onclick="go(1)">下一頁 →</button>
+</div>
+
+<!-- 提交中 overlay -->
+<div id="submitting">
+  <div class="spinner"></div>
+  <p>正在儲存您的回答...</p>
+</div>
+
+<script>
+/* ─── 問卷資料 ─────────────────────────────────────────── */
+const LIKERT = [
+  {v:'1',n:'1',l:'非常\n不同意'},{v:'2',n:'2',l:'不同意'},
+  {v:'3',n:'3',l:'普通'},{v:'4',n:'4',l:'同意'},{v:'5',n:'5',l:'非常\n同意'}
+];
+
+const SECTIONS = [
+  {
+    title:'第一部分：基本資料與使用背景', note:null,
+    questions:[
+      {id:'QA1',text:'您的性別為何？',type:'radio',required:true,
+       opts:['生理男','生理女']},
+      {id:'QA2',text:'您的身分／年級為何？',type:'radio',required:true,grid:true,
+       opts:['國中生','高中生','大專學生','博碩士生','一般成人','其他']},
+      {id:'QA3',text:'您平均每天使用智慧型手機或平板的時間為何？',type:'radio',required:true,
+       opts:['少於 1 小時','1 至 3 小時','3 至 5 小時','5 小時以上']},
+      {id:'QA4',text:'您是否常使用 AI 聊天機器人（如 ChatGPT、Gemini 等）聊天？',type:'radio',required:true,
+       opts:['從未使用','偶爾使用','經常使用']},
+      {id:'QA5',text:'您是否曾接受情緒教育、生命教育或輔導課程？',type:'radio',required:true,
+       opts:['從未參與','偶爾參與','經常參與']},
+      {id:'QA6',text:'您通常在什麼情況下最需要情緒支持？（可複選）',type:'checkbox',required:true,grid:true,
+       opts:['課業／工作壓力','人際衝突','家庭困擾','考試或重要任務','孤單或被誤解','其他']},
+      {id:'QA7',text:'您是否曾使用心理健康、心情紀錄、冥想、放鬆或情緒管理相關 App？',type:'radio',required:true,
+       opts:['從未使用','偶爾使用','經常使用']},
+    ]
+  },
+  {
+    title:'第二部分：社會情緒學習（SEL）能力自評',
+    note:'本部分了解您對自身 SEL 能力的主觀評估。若僅單次填答，請解釋為能力感受，不宜直接作為 APP 成效證據。',
+    questions:[
+      {id:'Q1', text:'我能清楚辨識並說出自己當下的情緒感受。',type:'likert',required:true},
+      {id:'Q2', text:'我能理解造成自己情緒反應的主要原因。',type:'likert',required:true},
+      {id:'Q3', text:'當我感到憤怒、焦慮或難過時，我能使用方法讓自己冷靜。',type:'likert',required:true},
+      {id:'Q4', text:'在情緒激動時，我能先停下來思考，再做出決定。',type:'likert',required:true},
+      {id:'Q5', text:'我能理解並尊重他人的感受、立場或不同觀點。',type:'likert',required:true},
+      {id:'Q6', text:'我能清楚且平和地表達自己的想法與感受。',type:'likert',required:true},
+      {id:'Q7', text:'當與他人發生衝突時，我能嘗試用建設性的方式解決問題。',type:'likert',required:true},
+      {id:'Q8', text:'面對問題時，我會考量不同解決方式及其可能影響。',type:'likert',required:true},
+      {id:'Q9', text:'遇到自己無法處理的困擾時，我願意向可信任的人求助。',type:'likert',required:true},
+      {id:'Q10',text:'當發現自己的決定造成問題時，我願意修正並承擔責任。',type:'likert',required:true},
+    ]
+  },
+  {
+    title:'第三部分：APP 輔助 SEL 與功能使用經驗',
+    note:'本部分評估 APP 對情緒覺察、自我管理、AI 回饋與 SEL 學習之輔助感受。重點在於「您認為 APP 是否有幫助」。',
+    questions:[
+      {id:'Q11', text:'使用 APP 後，我更容易辨識自己目前的情緒狀態。',type:'likert',required:true},
+      {id:'Q12a',text:'APP 的情緒輸入介面清楚易懂，操作方式容易上手。',type:'likert',required:true},
+      {id:'Q12b',text:'情緒輸入功能能幫助我描述並釐清自己的情緒狀態。',type:'likert',required:true},
+      {id:'Q13', text:'APP 提供的情緒紀錄或心情統計，能幫助我了解自己的情緒狀態。',type:'likert',required:true},
+      {id:'Q14', text:'APP 提供的情緒辨識或回饋大致符合我的實際感受。',type:'likert',required:true},
+      {id:'Q15', text:'AI 的回應讓我感到被理解與接納。',type:'likert',required:true},
+      {id:'Q16', text:'AI 能依據我的描述提供較個人化的回應。',type:'likert',required:true},
+      {id:'Q17', text:'AI 提供的建議對我處理情緒問題有實際幫助。',type:'likert',required:true},
+      {id:'Q18', text:'使用 APP 後，我更知道可以用哪些方式讓自己冷靜下來。',type:'likert',required:true},
+      {id:'Q19a',text:'APP 提供的情緒相關說明或知識內容實用且容易理解。',type:'likert',required:true},
+      {id:'Q19b',text:'APP 提供的情緒調節方法（如放鬆引導或情境練習）實用且容易理解。',type:'likert',required:true},
+      {id:'Q20', text:'APP 能提醒我在遇到困難時尋求可信任的人協助。',type:'likert',required:true},
+    ]
+  },
+  {
+    title:'第四部分：系統可用性、科技接受度與使用意願',
+    note:'本部分依科技接受模式與系統可用性概念設計，分別評估易用性、有用性、滿意度、持續使用與推薦意願。',
+    questions:[
+      {id:'Q21',text:'APP 介面清楚，操作流程直覺，容易學會使用。',type:'likert',required:true},
+      {id:'Q22',text:'APP 的文字、按鈕與提示說明容易理解。',type:'likert',required:true},
+      {id:'Q23',text:'系統運作與回應速度大致符合我的使用期待。',type:'likert',required:true},
+      {id:'Q24',text:'我認為本 APP 可作為情緒覺察與情緒管理的輔助工具。',type:'likert',required:true},
+      {id:'Q25',text:'整體而言，我對「AI情緒諮商小助手」APP 感到滿意。',type:'likert',required:true},
+      {id:'Q26',text:'未來若有需要，我願意持續使用本 APP 協助自己管理情緒。',type:'likert',required:true,
+       construct:'持續使用意願 Continued Use Intention'},
+      {id:'Q27',text:'我願意將本 APP 推薦給有需要的同學、朋友或家人。',type:'likert',required:true,
+       construct:'推薦意願 Recommendation Intention'},
+    ]
+  },
+  {
+    title:'第五部分：隱私安全、信任與倫理風險',
+    note:'本部分評估使用者對資料保護、AI 限制、危機轉介與人類協助之感受，回應 AI 情緒輔導工具在教育現場導入時的安全與倫理議題。',
+    questions:[
+      {id:'Q28',text:'使用 APP 時，我相信自己的個人資料與對話內容受到妥善保護。',type:'likert',required:true},
+      {id:'Q29',text:'APP 的提醒與說明能讓我理解其限制與使用風險。',type:'likert',required:true},
+      {id:'Q30',text:'本 APP 的說明讓我更清楚知道，AI 情緒輔導工具不能取代專業心理諮商。',type:'likert',required:true},
+      {id:'Q31',text:'本 APP 的提醒讓我更意識到，遇到嚴重情緒困難時應尋求真人協助。',type:'likert',required:true},
+      {id:'Q32',text:'我信任本 APP 可作為情緒支持的輔助工具。',type:'likert',required:true},
+      {id:'Q33',text:'使用本 APP 時，我能接受必要的安全提醒或轉介建議。',type:'likert',required:true},
+    ]
+  },
+  {
+    title:'第六部分：功能偏好與改善需求',
+    note:'本部分了解您對 APP 功能之偏好、改善需求、使用疑慮與未來功能期待，請依實際使用經驗填答。',
+    questions:[
+      {id:'Q34',text:'使用本 APP 時，您覺得下列哪些功能最有幫助？（可複選）',type:'checkbox',required:true,
+       opts:['情緒輸入與紀錄','心情統計或情緒動態回顧','AI 對話回應','情緒辨識與回饋',
+             '呼吸放鬆或情緒調節練習','情境練習或自我反思引導','求助提醒或轉介資訊（含1925安心專線）',
+             '隱私與安全提醒','AI 輔導老師性別選擇（男/女老師）','APP 依年齡調整說話語氣','其他']},
+      {id:'Q35',text:'您認為本 APP 最需要優先改善的項目為何？（可複選）',type:'checkbox',required:true,
+       opts:['操作流程更簡單','介面文字更清楚','AI 回應更貼近我的感受','AI 建議更具體可行',
+             '增加更多情緒調節方法','增加心情紀錄與跨日回顧功能','加強個人資料與對話隱私保護',
+             '加強危機提醒與真人求助資訊','提升系統速度與穩定性','AI 輔導老師語氣更符合我的年齡','其他']},
+      {id:'Q36',text:'使用本 APP 時，您是否曾出現以下感受？（可複選）',type:'checkbox',required:false,
+       opts:['感到安心','感到被理解','覺得 AI 回應不夠自然','覺得 AI 不太理解我的情緒',
+             '擔心個人資料或對話內容被看見','擔心 AI 建議不夠正確',
+             '不確定嚴重情緒問題時該找誰協助','沒有特別不舒服或擔心的感受','其他']},
+      {id:'Q37',text:'若未來繼續使用本 APP，您最希望增加哪些功能？（最多選三項）',type:'checkbox',required:true,max:3,
+       opts:['每日心情紀錄提醒','跨日情緒變化圖表','個人化情緒建議','放鬆練習音檔或引導',
+             '壓力、焦慮或人際困擾主題模組','與導師、輔導老師或家長聯繫的求助功能',
+             '匿名使用模式','更清楚的隱私設定與資料保護說明','危機求助專線或資源連結',
+             '可自訂 AI 輔導老師性別或說話風格','其他']},
+      {id:'Q38',text:'整體而言，您認為本 APP 較適合作為哪一種工具？（單選）',type:'radio',required:true,
+       opts:['日常心情紀錄工具','情緒覺察與自我反思工具','壓力與情緒調節練習工具',
+             '輔導課程或生命教育輔助工具','與真人輔導前的初步自我整理工具',
+             '我認為不太適合作為情緒支持工具']},
+    ]
+  }
+];
+
+/* ─── State ─────────────────────────────────────────────── */
+let cur = 0;
+const answers = {};
+const TOTAL = SECTIONS.length;
+
+/* ─── Build DOM ─────────────────────────────────────────── */
+function buildAll(){
+  const stepsEl = document.getElementById('progSteps');
+  const container = document.getElementById('sections');
+  const stepLabels = ['基本資料','SEL自評','APP體驗','系統接受度','隱私信任','功能偏好'];
+
+  SECTIONS.forEach((sec, si) => {
+    // progress step dot
+    const sp = document.createElement('div');
+    sp.className='prog-step'+(si===0?' current':'');
+    sp.id='ps'+si; sp.textContent=stepLabels[si];
+    stepsEl.appendChild(sp);
+
+    // section card
+    const card = document.createElement('div');
+    card.className='sec'+(si===0?' active':'');
+    card.id='sec'+si;
+
+    let h = `<div class="sec-title">${sec.title}</div><div class="sec-body">`;
+    if(sec.note) h+=`<div class="sec-note">${sec.note}</div>`;
+
+    sec.questions.forEach(q=>{
+      const req = q.required ? '<span class="req">*</span>' : '';
+      h+=`<div class="qb" id="qb-${q.id}">`;
+      if(q.construct) h+=`<div class="construct-tag">▍${q.construct}</div>`;
+      h+=`<div class="ql"><span class="qn">${q.id}.</span><span>${q.text}${req}</span></div>`;
+
+      if(q.type==='likert'){
+        h+=`<div class="likert" id="lk-${q.id}">`;
+        LIKERT.forEach(l=>{
+          h+=`<div class="lbtn" onclick="selLikert('${q.id}','${l.v}',this)">
+            <span class="ln">${l.n}</span><span class="ll">${l.l.replace('\n','<br>')}</span></div>`;
+        });
+        h+=`</div>`;
+      } else {
+        const cls = q.grid ? 'opts opts-grid' : 'opts';
+        h+=`<div class="${cls}" id="opt-${q.id}">`;
+        q.opts.forEach(o=>{
+          const nm = q.type==='checkbox' ? `${q.id}[]` : q.id;
+          h+=`<label class="opt" onclick="selOpt(this,'${q.id}','${q.type}')">
+            <input type="${q.type}" name="${nm}" value="${o}"> <span>${o}</span></label>`;
+        });
+        h+=`</div>`;
+      }
+      h+=`<div class="err">${q.type==='checkbox'?'請至少選擇一項':'請選擇一個選項'}</div></div>`;
+    });
+    h+=`</div>`;
+    card.innerHTML=h;
+    container.appendChild(card);
+  });
+  updateNav();
+}
+
+/* ─── Interactions ──────────────────────────────────────── */
+function selLikert(qid, val, el){
+  document.getElementById('lk-'+qid).querySelectorAll('.lbtn').forEach(b=>b.classList.remove('sel'));
+  el.classList.add('sel');
+  answers[qid]=val;
+  document.getElementById('qb-'+qid).classList.remove('bad');
+}
+
+function selOpt(label, qid, type){
+  const input = label.querySelector('input');
+  if(type==='radio'){
+    document.getElementById('opt-'+qid).querySelectorAll('.opt').forEach(o=>{
+      o.classList.remove('sel'); o.querySelector('input').checked=false;
+    });
+    input.checked=true; label.classList.add('sel');
+    answers[qid]=input.value;
+    document.getElementById('qb-'+qid).classList.remove('bad');
+  } else {
+    const q=findQ(qid);
+    if(q&&q.max&&!input.checked){
+      const n=document.querySelectorAll(`[name="${qid}[]"]:checked`).length;
+      if(n>=q.max){alert(`最多只能選 ${q.max} 項`);return;}
+    }
+    input.checked=!input.checked;
+    label.classList.toggle('sel',input.checked);
+    const vals=[...document.querySelectorAll(`[name="${qid}[]"]:checked`)].map(i=>i.value);
+    answers[qid]=vals;
+    if(vals.length>0) document.getElementById('qb-'+qid).classList.remove('bad');
+  }
+}
+
+function findQ(qid){
+  for(const s of SECTIONS){const q=s.questions.find(q=>q.id===qid);if(q)return q;}
+  return null;
+}
+
+/* ─── Validation ────────────────────────────────────────── */
+function validate(si){
+  let ok=true;
+  SECTIONS[si].questions.forEach(q=>{
+    if(!q.required)return;
+    const block=document.getElementById('qb-'+q.id);
+    let filled = q.type==='checkbox'
+      ? Array.isArray(answers[q.id])&&answers[q.id].length>0
+      : !!answers[q.id];
+    if(!filled){block.classList.add('bad');ok=false;}
+    else block.classList.remove('bad');
+  });
+  if(!ok){
+    const fb=document.querySelector('.qb.bad');
+    if(fb)fb.scrollIntoView({behavior:'smooth',block:'center'});
+  }
+  return ok;
+}
+
+/* ─── Navigation ────────────────────────────────────────── */
+async function go(dir){
+  if(dir===1&&!validate(cur))return;
+
+  // last page: submit
+  if(dir===1&&cur===TOTAL-1){
+    await submitForm();
+    return;
+  }
+
+  switchSection(dir);
+}
+
+function switchSection(dir){
+  document.getElementById('sec'+cur).classList.remove('active');
+  document.getElementById('ps'+cur).classList.remove('current','done');
+  document.getElementById('ps'+cur).classList.add('done');
+  cur+=dir;
+  if(cur<0)cur=0;
+  document.getElementById('sec'+cur).classList.add('active');
+  document.querySelectorAll('.prog-step').forEach((el,i)=>{
+    el.classList.toggle('done',i<cur);
+    el.classList.toggle('current',i===cur);
+  });
+  document.getElementById('progFill').style.width=((cur+1)/TOTAL*100)+'%';
+  updateNav();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function updateNav(){
+  document.getElementById('btnPrev').style.visibility=cur===0?'hidden':'visible';
+  document.getElementById('navCtr').textContent=`第 ${cur+1} / ${TOTAL} 頁`;
+  document.getElementById('btnNext').textContent=cur===TOTAL-1?'提交問卷 ✓':'下一頁 →';
+  document.getElementById('progFill').style.width=((cur+1)/TOTAL*100)+'%';
+}
+
+/* ─── Submit to DB ──────────────────────────────────────── */
+async function submitForm(){
+  const btn=document.getElementById('btnNext');
+  btn.disabled=true;
+  document.getElementById('submitting').classList.add('show');
+
+  // 整理資料：多選轉字串、Likert 轉數字
+  const payload={};
+  for(const [k,v] of Object.entries(answers)){
+    if(Array.isArray(v)) payload[k]=v.join('、');
+    else if(/^Q\d/.test(k)&&!isNaN(v)) payload[k]=parseInt(v);
+    else payload[k]=v;
+  }
+
+  try{
+    const res=await fetch('/api/submit',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify(payload)
+    });
+    const json=await res.json();
+    if(!res.ok) throw new Error(json.error||'提交失敗');
+    showThankYou();
+  }catch(err){
+    document.getElementById('submitting').classList.remove('show');
+    btn.disabled=false;
+    alert('⚠️ 提交失敗：'+err.message+'\n\n請稍後再試，或將此問卷截圖後傳給研究者。');
+  }
+}
+
+function showThankYou(){
+  document.getElementById('submitting').classList.remove('show');
+  document.getElementById('preamble').style.display='none';
+  document.getElementById('sections').style.display='none';
+  document.querySelector('.nav').style.display='none';
+  document.getElementById('progSteps').parentElement.style.display='none';
+  document.getElementById('ty').classList.add('active');
+  buildSummary();
+}
+
+/* ─── Summary & CSV ─────────────────────────────────────── */
+function buildSummary(){
+  const likertQs=SECTIONS.slice(1,5).flatMap(s=>s.questions.filter(q=>q.type==='likert'));
+  let sum=0,cnt=0;
+  likertQs.forEach(q=>{if(answers[q.id]){sum+=parseInt(answers[q.id]);cnt++;}});
+  const avg=cnt>0?(sum/cnt).toFixed(2):'-';
+  document.getElementById('summaryBox').innerHTML=`
+    <h3>📊 填答摘要</h3>
+    <div class="summary-row"><span>已回答題數</span><span>${Object.keys(answers).length} 題</span></div>
+    <div class="summary-row"><span>量表題平均分數</span><span>${avg} / 5.00</span></div>
+    <div class="summary-row"><span>性別</span><span>${answers['QA1']||'-'}</span></div>
+    <div class="summary-row"><span>身分</span><span>${answers['QA2']||'-'}</span></div>
+    <div class="summary-row"><span>AI工具使用頻率</span><span>${answers['QA4']||'-'}</span></div>`;
+}
+
+function downloadCSV(){
+  const rows=[['題號','回答']];
+  Object.entries(answers).forEach(([k,v])=>{
+    rows.push([k,Array.isArray(v)?v.join('；'):v]);
+  });
+  const csv='﻿'+rows.map(r=>r.map(c=>`"${String(c).replace(/"/g,'""')}"`).join(',')).join('\n');
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));
+  a.download='AI問卷作答紀錄.csv'; a.click();
+}
+
+/* ─── Init ──────────────────────────────────────────────── */
+buildAll();
+</script>
+</body>
+</html>
